@@ -7,6 +7,7 @@ use App\Quran;
 use App\Terjemahan;
 use App\Jalalayn;
 use App\Latin;
+use App\Kata;
 
 class AndiController extends Controller
 {
@@ -27,11 +28,16 @@ class AndiController extends Controller
             ['sura', $sura],
             ['aya', $aya],
         ])->get();
+        $kata = Kata::where([
+            ['sura', $sura],
+            ['aya', $aya],
+        ])->get();
         return view('andi.index', [
             'ayas' => $ayas,
             'terjemahan' => $terjemahan,
             'jalalayn' => $jalalayn,
             'latin' => $latin,
+            'kata' => $kata,
         ]);
     }
 

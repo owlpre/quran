@@ -14,10 +14,11 @@ class CreateAyasTable extends Migration
     public function up()
     {
         Schema::create('ayas', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('id')->unsigned();
             $table->integer('sura_id')->unsigned()->index();
             $table->text('text');
             $table->timestamps();
+            $table->primary(['id', 'sura_id']);
         });
     }
 

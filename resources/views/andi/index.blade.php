@@ -24,14 +24,30 @@
     {{ $i->text }}
     </div>
     @endforeach
+    <hr>
     @foreach ($jalalayn as $i)
     <div>
     {{ $i->text }}
     </div>
     @endforeach
+    <hr>
     @foreach ($latin as $i)
     <div>
     {!! $i->text !!}
+    </div>
+    @endforeach
+    @foreach ($kata as $i)
+    <div>
+    <span
+        style="
+            font-family: qalammajeed;
+            text-align: right;
+            font-size: 48px;
+        "
+    >
+    {!! $i->ar !!}
+    </span>
+    {!! $i->tr !!}
     </div>
     @endforeach
 </div>

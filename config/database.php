@@ -60,6 +60,11 @@ return [
                 'database' => database_path('andi-quran/latin'),
                 'prefix' => '',
             ],
+            'kata' => [
+                'driver' => 'sqlite',
+                'database' => database_path('andi-quran/kata'),
+                'prefix' => '',
+            ],
         ],
 
         'mysql' => [
