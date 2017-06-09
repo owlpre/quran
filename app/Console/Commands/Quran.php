@@ -40,21 +40,23 @@ class Quran extends Command
      */
     public function handle()
     {
-        $this->info('sync quran\'s data');
         $ayas = QuranModel::all();
+
+        $bar = $this->output->createProgressBar(count($ayas));
         foreach ($ayas as $i => $aya) {
             $sura = Sura::updateOrCreate([
                 'id' => $aya->sura,
             ]);
             $aya = $sura->ayas()->updateOrCreate(
                 [
-                    'id' => $aya->aya,
-                ]
-                , [
+                    'aya_id' => $aya->aya,
                     'text' => $aya->text,
                 ]
             );
-            $this->line('sura ' . $sura->id . ' aya ' . $aya->id);
+            $bar->advance();
         }
+
+        $bar->finish();
+
     }
 }

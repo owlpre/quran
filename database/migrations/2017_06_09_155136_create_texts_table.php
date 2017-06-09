@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAyasTable extends Migration
+class CreateTextsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateAyasTable extends Migration
      */
     public function up()
     {
-        Schema::create('ayas', function (Blueprint $table) {
+        Schema::create('texts', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('aya_id')->unsigned()->index();
-            $table->integer('sura_id')->unsigned()->index();
             $table->text('text');
             $table->timestamps();
         });
@@ -29,6 +28,6 @@ class CreateAyasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ayas');
+        Schema::dropIfExists('texts');
     }
 }
