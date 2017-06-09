@@ -4,6 +4,7 @@ if (!function_exists('clean')) {
     function clean($text) {
         $search = [
             'ۙ',
+            'ؕ',
         ];
         $replace = [
             '',
