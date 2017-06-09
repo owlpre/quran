@@ -44,7 +44,7 @@ class QuranClean extends Command
         $bar = $this->output->createProgressBar(count($ayas));
         foreach ($ayas as $i => $aya) {
             $text = $this->ayaText($aya);
-            $cleaned = $this->clean($text);
+            $cleaned = clean($text);
             if ($cleaned != $text) {
                 $aya->texts()->create([
                     'text' => $cleaned,
@@ -64,16 +64,5 @@ class QuranClean extends Command
             return $aya->text;
         }
         return $texts->first()->text;
-    }
-
-    private function clean($text) {
-        $search = [
-            'ۙ',
-        ];
-        $replace = [
-            '',
-        ];
-        $text = str_replace($search, $replace, $text);
-        return $text;
     }
 }

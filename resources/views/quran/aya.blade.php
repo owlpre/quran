@@ -1,14 +1,4 @@
 <?php
-function clean($text) {
-    $search = [
-        'ۙ',
-    ];
-    $replace = [
-        '',
-    ];
-    $text = str_replace($search, $replace, $text);
-    return $text;
-}
 ?>
 <style>
 @font-face {
