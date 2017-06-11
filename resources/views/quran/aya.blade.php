@@ -1,5 +1,3 @@
-<?php
-?>
 <style>
 @font-face {
     font-family: 'qalammajeed';
@@ -8,11 +6,19 @@
     ) }});
 }
 </style>
-<h1>ID: {{ $aya->id }}</h1>
 <div
+    dir="rtl"
+    lang="ar"
     style="
         font-family: qalammajeed;
-        text-align: right;
+        font-size: 48px;
+    "
+>{!! $aya->text !!}</div>
+<div
+    dir="rtl"
+    lang="ar"
+    style="
+        font-family: qalammajeed;
         font-size: 48px;
     "
 >{!! clean($aya->text) !!}</div>
