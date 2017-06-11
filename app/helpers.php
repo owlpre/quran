@@ -177,6 +177,18 @@ if (!function_exists('clean')) {
             $i = html_entity_decode($i);
         });
         $text = str_replace($search, $replace, $text);
+        $search = [
+            'ۙ',
+            'ۗ',
+            'ۛ',
+            'ۚ',
+            ''
+        ];
+        $replace = $search;
+        array_walk($replace, function (&$i) {
+            $i = '<span class="ar-mark">' . $i . '</span>';
+        });
+        $text = str_replace($search, $replace, $text);
         return $text;
     }
 }

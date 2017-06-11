@@ -20,6 +20,6 @@ class QuranController extends Controller
     }
 
     public function index() {
-        return 'hello';
+        return redirect('/1/1');
     }
 }

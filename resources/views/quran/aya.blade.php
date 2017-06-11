@@ -5,15 +5,13 @@
         '/font/qalammajeed.ttf'
     ) }});
 }
+.ar-mark {
+    display: inline-block;
+    width: 24px;
+    margin-left: 12px;
+    margin-right: -4px;
+}
 </style>
-<div
-    dir="rtl"
-    lang="ar"
-    style="
-        font-family: qalammajeed;
-        font-size: 48px;
-    "
->{!! $aya->text !!}</div>
 <div
     dir="rtl"
     lang="ar"
