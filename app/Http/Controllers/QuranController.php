@@ -20,6 +20,11 @@ class QuranController extends Controller
     }
 
     public function index() {
-        return redirect('/1/1');
+        $suras = Sura::all();
+        $aya_count = Aya::count();
+        return view('quran.index', [
+            'suras' => $suras,
+            'aya_count' => $aya_count,
+        ]);
     }
 }

@@ -15,6 +15,8 @@ class CreateSurasTable extends Migration
     {
         Schema::create('suras', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
+            $table->string('arti');
             $table->timestamps();
         });
     }

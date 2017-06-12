@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Quran as QuranModel;
 use App\Aya;
 use App\Sura;
+use Storage;
 
 class Quran extends Command
 {
@@ -40,13 +41,24 @@ class Quran extends Command
      */
     public function handle()
     {
-        $ayas = QuranModel::all();
+        $data = Storage::get('/data/arrays.xml');
+        $data = xml2array(simplexml_load_string($data));
+        $sura_names = xml2array($data['string-array'][27])['item'];
+        $sura_artis = xml2array($data['string-array'][26])['item'];
+        $sura_count = count($sura_names);
 
+        for ($i=1; $i <= $sura_count; $i++) { 
+            $sura = Sura::updateOrCreate([
+                'id' => $i,
+                'name' => trim($sura_names[$i - 1], '"'),
+                'arti' => $sura_artis[$i - 1],
+            ]);
+        }
+
+        $ayas = QuranModel::all();
         $bar = $this->output->createProgressBar(count($ayas));
         foreach ($ayas as $i => $aya) {
-            $sura = Sura::updateOrCreate([
-                'id' => $aya->sura,
-            ]);
+            $sura = Sura::findOrFail($aya->sura);
             $aya = $sura->ayas()->updateOrCreate(
                 [
                     'aya_id' => $aya->aya,
@@ -55,8 +67,6 @@ class Quran extends Command
             );
             $bar->advance();
         }
-
         $bar->finish();
-
     }
 }
