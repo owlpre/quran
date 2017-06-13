@@ -29,16 +29,20 @@
                 {{ Html::image('/img/quranalkarim.png') }}
                 <br>
                 <div class="action-hidden" style="display: none;">
-                    {{ Form::text('sura', '', [
-                        'class' => 'question form-control',
-                        'placeholder' => 'Number of Sura',
-                        'data-answer' => count($suras),
-                    ]) }}
-                    {{ Form::text('aya', '', [
-                        'class' => 'question form-control',
-                        'placeholder' => 'Number of Aya',
-                        'data-answer' => $aya_count,
-                    ]) }}
+                    <div class="form-group">
+                        {{ Form::text('sura', '', [
+                            'class' => 'question form-control',
+                            'placeholder' => 'Number of Sura',
+                            'data-answer' => count($suras),
+                        ]) }}
+                    </div>
+                    <div class="form-group">
+                        {{ Form::text('aya', '', [
+                            'class' => 'question form-control',
+                            'placeholder' => 'Number of Aya',
+                            'data-answer' => $aya_count,
+                        ]) }}
+                    </div>
                 </div>
                 <div class="action-hidden">
                     <span class="btn btn-info">
@@ -59,23 +63,34 @@
                 @foreach ($suras as $sura)
                     <div class="sura-wrapper text-center col-sm-6 col-md-4 col-lg-3">
                         <div class="sura">
-                            {{ Html::image($sura->image()) }}
                             <div class="action-hidden" style="display: none;">
-                                {{ Form::text('name', '', [
-                                    'class' => 'question form-control',
-                                    'placeholder' => 'Sura Name',
-                                    'data-answer' => $sura->name,
-                                ]) }}
-                                {{ Form::text('arti', '', [
-                                    'class' => 'question form-control',
-                                    'placeholder' => 'Sura Arti',
-                                    'data-answer' => $sura->arti,
-                                ]) }}
-                                {{ Form::text('number', '', [
-                                    'class' => 'question form-control',
-                                    'placeholder' => 'Number of Aya',
-                                    'data-answer' => $sura->ayas()->count(),
-                                ]) }}
+                                {{ $sura->id }}
+                            </div>
+                            <div class="action-hidden">
+                                {{ Html::image($sura->image()) }}
+                            </div>
+                            <div class="action-hidden" style="display: none;">
+                                <div class="form-group">
+                                    {{ Form::text('name', '', [
+                                        'class' => 'question form-control',
+                                        'placeholder' => 'Sura Name',
+                                        'data-answer' => $sura->name,
+                                    ]) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::text('arti', '', [
+                                        'class' => 'question form-control',
+                                        'placeholder' => 'Sura Arti',
+                                        'data-answer' => $sura->arti,
+                                    ]) }}
+                                </div>
+                                <div class="form-group">
+                                    {{ Form::text('number', '', [
+                                        'class' => 'question form-control',
+                                        'placeholder' => 'Number of Aya',
+                                        'data-answer' => $sura->ayas()->count(),
+                                    ]) }}
+                                </div>
                             </div>
                             <div class="action-hidden">
                                 <br>
@@ -89,13 +104,13 @@
         </div>
     </div>
     <div id="main-menu" style="position: fixed;top: 0px;padding: 8px;">
-        <button class="btn btn-default">
+        <button class="btn btn-default btn-action">
             <span class="glyphicon glyphicon-asterisk"></span>
         </button>
-        <button class="btn btn-default">
+        <button class="btn btn-default btn-check">
             <span class="glyphicon glyphicon-ok"></span>
         </button>
-        <button class="btn btn-default">
+        <button class="btn btn-default btn-reset">
             <span class="glyphicon glyphicon-erase"></span>
         </button>
     </div>
@@ -104,21 +119,48 @@
 @section('script')
     <script>
         $(function () {
-            $("#main-menu .glyphicon.glyphicon-asterisk").click(function () {
-                $(".action-hidden").toggle();
-            });
-            $("#main-menu .glyphicon.glyphicon-ok").click(function () {
+            function checkAnswers() {
+                var next = false;
                 $(".question").each(function () {
                     var el = $(this);
+                    if (next == true) {
+                        el.focus();
+                        next = 0;
+                    }
                     var answer = el.val();
                     var trueAnswer = el.data('answer');
-                    if (answer != trueAnswer) {
-                        el.val('');
+                    var group = el.closest('.form-group');
+                    if (answer != '') {
+                        if (answer == trueAnswer) {
+                            group.removeClass("has-error");
+                            group.addClass("has-success");
+                            if ($(this).is(":focus") && next == false) {
+                                next = true;
+                            }
+                        } else {
+                            group.removeClass("has-success");
+                            group.addClass("has-error");
+                        }
+                    } else {
+                        group.removeClass("has-success");
+                        group.removeClass("has-error");
                     }
                 });
+            };
+
+            $("#main-menu .btn-action").click(function () {
+                $(".action-hidden").toggle();
             });
-            $("#main-menu .glyphicon.glyphicon-erase").click(function () {
+            $("#main-menu .btn-check").click(function () {
+                checkAnswers();
+            });
+            $("#main-menu .btn-reset").click(function () {
                 $(".question").val('');
+            });
+            $(".question").keypress(function (e) {
+                if (e.which == 13) {
+                    checkAnswers();
+                }
             });
         });
     </script>
