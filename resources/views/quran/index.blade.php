@@ -34,6 +34,8 @@
                             'class' => 'question form-control',
                             'placeholder' => 'Number of Sura',
                             'data-answer' => count($suras),
+                            'autocomplete' => 'off',
+                            'spellcheck' => 'false',
                         ]) }}
                     </div>
                     <div class="form-group">
@@ -41,6 +43,8 @@
                             'class' => 'question form-control',
                             'placeholder' => 'Number of Aya',
                             'data-answer' => $aya_count,
+                            'autocomplete' => 'off',
+                            'spellcheck' => 'false',
                         ]) }}
                     </div>
                 </div>
@@ -75,6 +79,8 @@
                                         'class' => 'question form-control',
                                         'placeholder' => 'Sura Name',
                                         'data-answer' => $sura->name,
+                                        'autocomplete' => 'off',
+                                        'spellcheck' => 'false',
                                     ]) }}
                                 </div>
                                 <div class="form-group">
@@ -82,6 +88,8 @@
                                         'class' => 'question form-control',
                                         'placeholder' => 'Sura Arti',
                                         'data-answer' => $sura->arti,
+                                        'autocomplete' => 'off',
+                                        'spellcheck' => 'false',
                                     ]) }}
                                 </div>
                                 <div class="form-group">
@@ -89,6 +97,8 @@
                                         'class' => 'question form-control',
                                         'placeholder' => 'Number of Aya',
                                         'data-answer' => $sura->ayas()->count(),
+                                        'autocomplete' => 'off',
+                                        'spellcheck' => 'false',
                                     ]) }}
                                 </div>
                             </div>
