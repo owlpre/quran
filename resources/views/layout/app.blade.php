@@ -7,6 +7,7 @@
     <title>{{ config('app.name') }}</title>
 
     {{ Html::style('bootstrap/3.3.7/dist/css/bootstrap.css') }}
+    {{ Html::style('font-awesome/4.7.0/css/font-awesome.css') }}
 
     @yield('style')
 

@@ -37,6 +37,9 @@
                             'autocomplete' => 'off',
                             'spellcheck' => 'false',
                         ]) }}
+                        <button class="btn btn-default btn-look">
+                            <i class="fa fa-eye"></i>
+                        </button>
                     </div>
                     <div class="form-group">
                         {{ Form::text('aya', '', [
@@ -46,6 +49,9 @@
                             'autocomplete' => 'off',
                             'spellcheck' => 'false',
                         ]) }}
+                        <button class="btn btn-default btn-look">
+                            <i class="fa fa-eye"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="action-hidden">
@@ -82,6 +88,9 @@
                                         'autocomplete' => 'off',
                                         'spellcheck' => 'false',
                                     ]) }}
+                                    <button class="btn btn-default btn-look">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
                                 </div>
                                 <div class="form-group">
                                     {{ Form::text('arti', '', [
@@ -91,6 +100,9 @@
                                         'autocomplete' => 'off',
                                         'spellcheck' => 'false',
                                     ]) }}
+                                    <button class="btn btn-default btn-look">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
                                 </div>
                                 <div class="form-group">
                                     {{ Form::text('number', '', [
@@ -100,6 +112,9 @@
                                         'autocomplete' => 'off',
                                         'spellcheck' => 'false',
                                     ]) }}
+                                    <button class="btn btn-default btn-look">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
                                 </div>
                             </div>
                             <div class="action-hidden">
@@ -158,6 +173,12 @@
                 });
             };
 
+            $(".btn-look").click(function () {
+                var el = $(this);
+                var group = el.closest('.form-group');
+                var input = group.find('input');
+                input.val(input.data('answer'));
+            });
             $("#main-menu .btn-action").click(function () {
                 $(".action-hidden").toggle();
             });
@@ -167,9 +188,21 @@
             $("#main-menu .btn-reset").click(function () {
                 $(".question").val('');
             });
-            $(".question").keypress(function (e) {
-                if (e.which == 13) {
-                    checkAnswers();
+            $(".question").keydown(function (e) {
+                switch (e.which) {
+                    case 13:
+                        checkAnswers();
+                    break;
+                    case 9:
+                        var next = $($(this).closest(".form-group").next());
+                        var item = next.find(".question");
+                        if (!next.length) {
+                            next = $($(this).closest(".sura-wrapper").next());
+                            item = $(next.find(".question")[0]);
+                        }
+                        item.focus();
+                        e.preventDefault();
+                    break;
                 }
             });
         });
