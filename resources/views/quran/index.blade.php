@@ -210,7 +210,13 @@
                                 nav = nav.next();
                             }
                             nav = $(nav);
-                            item = $(next.find(".question")[0]);
+                            if (e.shiftKey) {
+                                item = $(nav.find(".question")[
+                                    nav.find(".question").length - 1
+                                ]);
+                            } else {
+                                item = $(nav.find(".question")[0]);
+                            }
                         }
                         item.focus();
                         e.preventDefault();
