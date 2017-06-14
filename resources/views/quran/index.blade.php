@@ -194,10 +194,22 @@
                         checkAnswers();
                     break;
                     case 9:
-                        var next = $($(this).closest(".form-group").next());
-                        var item = next.find(".question");
-                        if (!next.length) {
-                            next = $($(this).closest(".sura-wrapper").next());
+                        var nav = $(this).closest(".form-group");
+                        if (e.shiftKey) {
+                            nav = nav.prev();
+                        } else {
+                            nav = nav.next();
+                        }
+                        nav = $(nav);
+                        var item = nav.find(".question");
+                        if (!nav.length) {
+                            nav = $(this).closest(".sura-wrapper");
+                            if (e.shiftKey) {
+                                nav = nav.prev();
+                            } else {
+                                nav = nav.next();
+                            }
+                            nav = $(nav);
                             item = $(next.find(".question")[0]);
                         }
                         item.focus();
