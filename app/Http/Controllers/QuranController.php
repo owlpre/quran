@@ -8,6 +8,10 @@ use App\Aya;
 
 class QuranController extends Controller
 {
+    public function alphabets() {
+        return view('quran.as');
+    }
+
     public function sura(Sura $sura) {
         dd($sura);
     }

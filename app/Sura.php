@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Sura extends Model
 {
     protected $fillable = [
-        'id', 'name', 'arti',
+        'id', 'name', 'arti', 'ar',
     ];
     
     public function ayas() {

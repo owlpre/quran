@@ -17,6 +17,7 @@ class CreateSurasTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('arti');
+            $table->string('ar');
             $table->timestamps();
         });
     }

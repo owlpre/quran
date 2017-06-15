@@ -41,6 +41,8 @@ class Quran extends Command
      */
     public function handle()
     {
+        $sura_ars = Storage::get('/data/tanzil.net-selectsura.txt');
+        $sura_ars = explode(PHP_EOL, $sura_ars);
         $data = Storage::get('/data/arrays.xml');
         $data = xml2array(simplexml_load_string($data));
         $sura_names = xml2array($data['string-array'][27])['item'];
@@ -52,6 +54,7 @@ class Quran extends Command
                 'id' => $i,
                 'name' => trim($sura_names[$i - 1], '"'),
                 'arti' => trim($sura_artis[$i - 1], '"'),
+                'ar' => $sura_ars[$i - 1],
             ]);
         }
 

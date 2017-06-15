@@ -93,6 +93,16 @@
                         <div class="sura">
                             <div class="action-hidden" style="display: none;">
                                 {{ $sura->id }}
+                                <span
+                                    dir="rtl"
+                                    lang="ar"
+                                    style="
+                                        font-family: qalammajeed;
+                                        font-size: 24px;
+                                    "
+                                >
+                                    {!! $sura->ar !!}
+                                </span>
                             </div>
                             <div class="action-hidden">
                                 {{ Html::image($sura->image()) }}
