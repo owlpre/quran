@@ -40,6 +40,7 @@
             <div class="col-sm-12 text-center">
                 {{ Html::image('/img/quranalkarim.png') }}
                 <br>
+                <!--
                 <div class="action-hidden" style="display: none;">
                     <div class="form-group">
                         {{ Form::text('sura', '', [
@@ -72,6 +73,7 @@
                         </button>
                     </div>
                 </div>
+                -->
                 <div class="action-hidden">
                     <span class="btn btn-info">
                         <span class="badge">{{ count($suras) }}</span>
@@ -123,6 +125,7 @@
                                         <i class="fa fa-close"></i>
                                     </button>
                                 </div>
+                                <!--
                                 <div class="form-group">
                                     {{ Form::text('arti', '', [
                                         'class' => 'question form-control',
@@ -153,6 +156,7 @@
                                         <i class="fa fa-close"></i>
                                     </button>
                                 </div>
+                                -->
                             </div>
                             <div class="action-hidden">
                                 <br>
