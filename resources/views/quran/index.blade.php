@@ -10,7 +10,7 @@
         }
         .form-control {
             display: inline-block;
-            width: auto;
+            width: 160px;
         }
         .sura-wrapper {
             padding: 8px;
@@ -40,6 +40,9 @@
                         <button class="btn btn-default btn-look">
                             <i class="fa fa-eye"></i>
                         </button>
+                        <button class="btn btn-default btn-delete">
+                            <i class="fa fa-close"></i>
+                        </button>
                     </div>
                     <div class="form-group">
                         {{ Form::text('aya', '', [
@@ -51,6 +54,9 @@
                         ]) }}
                         <button class="btn btn-default btn-look">
                             <i class="fa fa-eye"></i>
+                        </button>
+                        <button class="btn btn-default btn-delete">
+                            <i class="fa fa-close"></i>
                         </button>
                     </div>
                 </div>
@@ -91,6 +97,9 @@
                                     <button class="btn btn-default btn-look">
                                         <i class="fa fa-eye"></i>
                                     </button>
+                                    <button class="btn btn-default btn-delete">
+                                        <i class="fa fa-close"></i>
+                                    </button>
                                 </div>
                                 <div class="form-group">
                                     {{ Form::text('arti', '', [
@@ -103,6 +112,9 @@
                                     <button class="btn btn-default btn-look">
                                         <i class="fa fa-eye"></i>
                                     </button>
+                                    <button class="btn btn-default btn-delete">
+                                        <i class="fa fa-close"></i>
+                                    </button>
                                 </div>
                                 <div class="form-group">
                                     {{ Form::text('number', '', [
@@ -114,6 +126,9 @@
                                     ]) }}
                                     <button class="btn btn-default btn-look">
                                         <i class="fa fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-default btn-delete">
+                                        <i class="fa fa-close"></i>
                                     </button>
                                 </div>
                             </div>
@@ -178,6 +193,12 @@
                 var group = el.closest('.form-group');
                 var input = group.find('input');
                 input.val(input.data('answer'));
+            });
+            $(".btn-delete").click(function () {
+                var el = $(this);
+                var group = el.closest('.form-group');
+                var input = group.find('input');
+                input.val('');
             });
             $("#main-menu .btn-action").click(function () {
                 $(".action-hidden").toggle();

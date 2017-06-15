@@ -51,7 +51,7 @@ class Quran extends Command
             $sura = Sura::updateOrCreate([
                 'id' => $i,
                 'name' => trim($sura_names[$i - 1], '"'),
-                'arti' => $sura_artis[$i - 1],
+                'arti' => trim($sura_artis[$i - 1], '"'),
             ]);
         }
 
