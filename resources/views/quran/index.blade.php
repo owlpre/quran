@@ -8,6 +8,18 @@
                 '/font/qalammajeed.ttf'
             ) }});
         }
+        #main-menu {
+            position: fixed;
+            top: 0px;
+            padding: 8px;
+            width: 100%;
+            background: white;
+            border-bottom: 1px solid #eaeaea;
+            height: 50px;
+        }
+        body {
+            padding-top: 50px;
+        }
         .form-control {
             display: inline-block;
             width: 160px;
@@ -23,7 +35,7 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container hidden">
         <div class="row">
             <div class="col-sm-12 text-center">
                 {{ Html::image('/img/quranalkarim.png') }}
@@ -72,9 +84,9 @@
                 </div>
             </div>
         </div>
+        <hr>
     </div>
-    <hr>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
                 @foreach ($suras as $sura)
                     <div class="sura-wrapper text-center col-sm-6 col-md-4 col-lg-3">
@@ -143,15 +155,18 @@
                 @endforeach
         </div>
     </div>
-    <div id="main-menu" style="position: fixed;top: 0px;padding: 8px;">
+    <div id="main-menu" class="text-center">
         <button class="btn btn-default btn-action">
             <span class="glyphicon glyphicon-asterisk"></span>
         </button>
-        <button class="btn btn-default btn-check">
-            <span class="glyphicon glyphicon-ok"></span>
+        <button class="btn btn-default btn-fill">
+            <i class="fa fa-coffee"></i>
         </button>
         <button class="btn btn-default btn-reset">
             <span class="glyphicon glyphicon-erase"></span>
+        </button>
+        <button class="btn btn-default btn-check">
+            <span class="glyphicon glyphicon-ok"></span>
         </button>
     </div>
 @endsection
@@ -193,12 +208,14 @@
                 var group = el.closest('.form-group');
                 var input = group.find('input');
                 input.val(input.data('answer'));
+                input.focus();
             });
             $(".btn-delete").click(function () {
                 var el = $(this);
                 var group = el.closest('.form-group');
                 var input = group.find('input');
                 input.val('');
+                input.focus();
             });
             $("#main-menu .btn-action").click(function () {
                 $(".action-hidden").toggle();
@@ -208,6 +225,13 @@
             });
             $("#main-menu .btn-reset").click(function () {
                 $(".question").val('');
+            });
+            $("#main-menu .btn-fill").click(function () {
+                $(".question").each(function () {
+                    var el = $(this);
+                    var trueAnswer = el.data('answer');
+                    el.val(trueAnswer);
+                });
             });
             $(".question").keydown(function (e) {
                 switch (e.which) {
@@ -244,6 +268,7 @@
                     break;
                 }
             });
+            $("#main-menu .btn-action").click();
         });
     </script>
 @endsection
