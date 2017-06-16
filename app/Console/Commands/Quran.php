@@ -22,7 +22,7 @@ class Quran extends Command
      *
      * @var string
      */
-    protected $description = 'Sync from Andi\'s data';
+    protected $description = 'Sync from data';
 
     /**
      * Create a new command instance.
@@ -41,7 +41,7 @@ class Quran extends Command
      */
     public function handle()
     {
-        $sura_ars = Storage::get('/data/tanzil.net-selectsura.txt');
+        $sura_ars = Storage::get('/data/suras-ar.txt');
         $sura_ars = explode(PHP_EOL, $sura_ars);
         $data = Storage::get('/data/arrays.xml');
         $data = xml2array(simplexml_load_string($data));
