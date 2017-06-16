@@ -96,6 +96,7 @@
                             <div class="action-hidden" style="display: none;">
                                 {{ $sura->id }}
                                 <span
+                                    class="ar-title"
                                     dir="rtl"
                                     lang="ar"
                                     style="
@@ -179,6 +180,9 @@
         <button class="btn btn-default btn-reset">
             <span class="glyphicon glyphicon-erase"></span>
         </button>
+        <button class="btn btn-default btn-title">
+            <span class="fa fa-at"></span>
+        </button>
         <button class="btn btn-default btn-check">
             <span class="glyphicon glyphicon-ok"></span>
         </button>
@@ -217,6 +221,9 @@
                 });
             };
 
+            $(".btn-title").click(function () {
+                $(".ar-title").toggle();
+            });
             $(".btn-look").click(function () {
                 var el = $(this);
                 var group = el.closest('.form-group');
