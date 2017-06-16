@@ -188,6 +188,7 @@
             @foreach ($suras as $ar => $tr)
                 <div>
                     {{ $tr }}
+                    <!--
                     <span
                         dir="rtl"
                         lang="ar"
@@ -196,6 +197,7 @@
                             font-size: 48px;
                         "
                     >{!! $ar !!}</span>
+                    -->
                 </div>
             @endforeach
         </div>

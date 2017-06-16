@@ -43,9 +43,10 @@ class Quran extends Command
     {
         $sura_ars = Storage::get('/data/suras-ar.txt');
         $sura_ars = explode(PHP_EOL, $sura_ars);
+        $sura_names = Storage::get('/data/suras-title.txt');
+        $sura_names = explode(PHP_EOL, $sura_names);
         $data = Storage::get('/data/arrays.xml');
         $data = xml2array(simplexml_load_string($data));
-        $sura_names = xml2array($data['string-array'][27])['item'];
         $sura_artis = xml2array($data['string-array'][26])['item'];
         $sura_count = count($sura_names);
 
