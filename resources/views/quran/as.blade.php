@@ -121,7 +121,7 @@
         var $trs = [];
         static $ars = [
             'ا' =>
-                [ 4, '',  ],
+                [ 4, '', 'a', ],
             'ب' =>
                 [ 1, 'b', ],
             'ت' =>
@@ -215,10 +215,14 @@
         public function __construct() {
             if (empty(self::$data)) {
                 foreach (self::$ars as $i => $v) {
-                    $arc = new ArC($v[0], $v[1]);
+                    $arc = new ArC($v);
                     self::$data[$i] = $arc;
                 }
             }
+        }
+
+        public function toLatin() {
+            return implode('', $this->trs);
         }
 
         public function add($ar, $ars, $i) {
@@ -230,6 +234,8 @@
                 if ($next_ar) {
                     $next_arc = self::$data[$next_ar];
                     if ($next_arc->type == 1) {
+                        $tr = $arc->tr2;
+                        $this->trs[] = $tr;
                         return true;
                     }
                 }
@@ -257,69 +263,70 @@
     }
 
     class ArC {
-        public function __construct($type, $tr) {
-            $this->type = $type;
-            $this->tr = $tr;
+        public function __construct($data) {
+            $this->type = $data[0];
+            $this->tr = $data[1];
+            $this->tr2 = @$data[2];
         }
     }
 
-    class Translator {
+    class Word {
         public function __construct($text) {
             $this->text = $text;
-            $this->words = preg_split('/\s+/', $this->text);
             $this->_();
         }
 
-        private function __($word) {
-            $parts = [];
-            $ars = preg_split('//u', $word, null, PREG_SPLIT_NO_EMPTY);;
+        private function _() {
+            $this->parts = [];
+            $ars = preg_split('//u', $this->text, null, PREG_SPLIT_NO_EMPTY);;
             $part = new Part();
             for ($i = 0;$i < count($ars);$i++) {
                 $ar = $ars[$i];
                 $newPart = $part->add($ar, $ars, $i);
                 if ($newPart) {
-                    $parts[] = $part;
+                    $this->parts[] = $part;
                     $part = new Part();
                 }
             }
             if ($part->trs) {
-                $parts[] = $part;
-            }
-            dd($parts);
-        }
-
-        private function _() {
-            foreach ($this->words as $word) {
-                $this->__($word);
+                $this->parts[] = $part;
             }
         }
 
         public function toLatin() {
-            $parts = [];
-            $ars = preg_split('//u', $this->text, null, PREG_SPLIT_NO_EMPTY);;
-            $part = new Part();
-            for ($i = 0;$i < count($ars);$i++) {
-                $ar = $ars[$i];
-                $newPart = $part->add($ar);
-                if ($newPart) {
-                    $parts[] = $part;
-                    $part = new Part();
-                }
+            $latin = "";
+            foreach ($this->parts as $part) {
+                $latin .= $part->toLatin();
             }
-            if ($part->trs) {
-                $parts[] = $part;
+            return $latin;
+        }
+    }
+
+    class Translator {
+        private $text, $words, $latin;
+        
+        public function __construct($text) {
+            $this->text = $text;
+            $this->words = [];
+            $words = preg_split('/\s+/', $this->text);
+            foreach ($words as $word) {
+                $this->words[] = new Word($word);
             }
-            $this->translation = '';
-            for ($i = 0;$i < count($parts);$i++) {
-                $this->translation .= $parts[$i]->trans();
+            $this->_();
+        }
+
+        public function _() {
+            $latins = [];
+            foreach ($this->words as $word) {
+                $latins[] = $word->toLatin();
             }
-            $this->translation;
+            $this->latin = implode(' ', $latins);
         }
     }
 
     foreach ($suras as $k => $v) {
         try {
-            dump(new Translator($k));
+            dump((new Translator($k)));
         } catch (\Exception $e) {
             dump($e);
         }
