@@ -116,37 +116,145 @@
         "اَلْفَلَق" => "al falaq",
         "اَلنَّاس" => "an nas",
     ];
-    $ars = [
-        'ا' => 'a',
-        'ب' => 'b',
-        'ت' => 't',
-        'ث' => 'ts',
-        'ج' => 'j',
-        'ح' => 'H',
-        'خ' => 'kh',
-        'د' => 'd',
-        'ذ' => 'dz',
-        'ر' => 'r',
-        'ز' => 'z',
-        'س' => 's',
-        'ش' => 'sy',
-        'ص' => 'sh',
-        'ض' => 'dh',
-        'ط' => 'th',
-        'ظ' => 'dh',
-        'ع' => '\'a',
-        'غ' => 'gh',
-        'ف' => 'f',
-        'ق' => 'q',
-        'ك' => 'k',
-        'ل' => 'l',
-        'م' => 'm',
-        'ن' => 'n',
-        'ه' => 'h',
-        'و' => 'w',
-        'ي' => 'y',
-        'ة' => 'ht',
-    ];
+
+    class Part {
+        private $arcs;
+        var $trs;
+
+        public function __construct() {
+            $ars = [
+                'ا' =>
+                    [ 1, '',  ],
+                'ب' =>
+                    [ 1, 'b', ],
+                'ت' =>
+                    [ 1, 't', ],
+                'ث' =>
+                    [ 1, 'ts',],
+                'ج' =>
+                    [ 1, 'j', ],
+                'ح' =>
+                    [ 1, 'H', ],
+                'خ' =>
+                    [ 1, 'kh',],
+                'د' =>
+                    [ 1, 'd', ],
+                'ذ' =>
+                    [ 1, 'dz',],
+                'ر' =>
+                    [ 1, 'r',],
+                'ز' =>
+                    [ 1, 'z',],
+                'س' =>
+                    [ 1, 's',],
+                'ش' =>
+                    [ 1, 'sy',],
+                'ص' =>
+                    [ 1, 'sh',],
+                'ض' =>
+                    [ 1, 'dh',],
+                'ط' =>
+                    [ 1, 'th',],
+                'ظ' =>
+                    [ 1, 'dh',],
+                'ع' =>
+                    [ 1, "'",],
+                'غ' =>
+                    [ 1, 'gh',],
+                'ف' =>
+                    [ 1, 'f',],
+                'ق' =>
+                    [ 1, 'q',],
+                'ك' =>
+                    [ 1, 'k',],
+                'ل' =>
+                    [ 1, 'l',],
+                'م' =>
+                    [ 1, 'm',],
+                'ن' =>
+                    [ 1, 'n',],
+                'ه' =>
+                    [ 1, 'h',],
+                'و' =>
+                    [ 1, 'w',],
+                'ي' =>
+                    [ 1, 'y',],
+                'ة' =>
+                    [ 1, 'ht',],
+                'َ' =>
+                    [ 2, 'a',],
+                'ِ' =>
+                    [ 2, 'i',],
+                'ُ' =>
+                    [ 2, 'u',],
+                'ّ' =>
+                    [ 2, 'doble',],
+                'ً' =>
+                    [ 2, 'an',],
+                'ٍ' =>
+                    [ 2, 'in',],
+                'ٌ' =>
+                    [ 2, 'un',],
+                'ْ' =>
+                    [ 2, '',],
+                ' ' =>
+                    [ 2, ' ',],
+                'ء' =>
+                    [ 2, "'",],
+            ];
+            $this->arcs = [];
+            foreach ($ars as $i => $v) {
+                $arc = new ArC($v[0], $v[1]);
+                $this->arcs[$i] = $arc;
+            }
+        }
+
+        public function add($ar) {
+            $arc = $this->arcs[$ar];
+            $this->trs .= $arc->tr;
+            if ($arc->type == 2) {
+                return true;
+            }
+            return false;
+        }
+    }
+
+    class ArC {
+        public function __construct($type, $tr) {
+            $this->type = $type;
+            $this->tr = $tr;
+        }
+    }
+
+    function to_latin($text) {
+        $parts = [];
+        $ars = preg_split('//u', $text, null, PREG_SPLIT_NO_EMPTY);;
+        $part = new Part();
+        for ($i = 0;$i < count($ars);$i++) {
+            $ar = $ars[$i];
+            $newPart = $part->add($ar);
+            if ($newPart) {
+                $parts[] = $part;
+                $part = new Part();
+            }
+        }
+        if ($part->trs) {
+            $parts[] = $part;
+        }
+        $translation = '';
+        for ($i = 0;$i < count($parts);$i++) {
+            $translation .= $parts[$i]->trs;
+        }
+        return $translation;
+    }
+
+    foreach ($suras as $k => $v) {
+        try {
+            dump(to_latin($k));
+        } catch (\Exception $e) {
+            dump($e);
+        }
+    }
 ?>
 
 @section('style')
@@ -169,14 +277,14 @@
         <div class="col-sm-12 table-responsive">
             <table class="table table-bordered">
                 <tr>
-                    @foreach ($ars as $k => $v)
+{{--                     @foreach ($ars as $k => $v)
                         <td>
                             {{ $k }}
                             <hr>
                             {{ $v }}
                         </td>
                     @endforeach
-                </tr>
+ --}}                </tr>
             </table>
         </div>
     </div>
