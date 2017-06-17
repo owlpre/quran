@@ -118,10 +118,8 @@
     ];
 
     class Part {
-        var $trs = [];
+        // var $trs = [];
         static $ars = [
-            'ا' =>
-                [ 4, '', 'a', ],
             'ب' =>
                 [ 1, 'b', ],
             'ت' =>
@@ -184,8 +182,6 @@
                 [ 2, 'i',],
             'ُ' =>
                 [ 2, 'u',],
-            'ّ' =>
-                [ 3, '',],
             'ً' =>
                 [ 2, 'an',],
             'ٍ' =>
@@ -196,8 +192,6 @@
                 [ 2, '',],
             ' ' =>
                 [ 2, ' ',],
-            'ء' =>
-                [ 2, "'",],
             'ئ' =>
                 [ 2, "",],
             'أ' =>
@@ -208,6 +202,12 @@
                 [ 2, "",],
             'ى' =>
                 [ 2, "",],
+            'ّ' =>
+                [ 3, '',],
+            'ا' =>
+                [ 4, '', 'a', ],
+            'ء' =>
+                [ 5, "'",],
         ];
         static $data = [];
         var $all = "";
@@ -228,22 +228,25 @@
         public function add($ar, $ars, $i) {
             $this->all .= $ar;
             $arc = self::$data[$ar];
-            $tr = $arc->tr;
+            // $tr = $arc->tr;
             if ($arc->type == 4) {
                 $next_ar = @$ars[$i + 1];
                 if ($next_ar) {
                     $next_arc = self::$data[$next_ar];
                     if ($next_arc->type == 1) {
-                        $tr = $arc->tr2;
-                        $this->trs[] = $tr;
+                        // $tr = $arc->tr2;
+                        // $this->trs[] = $tr;
+                        return true;
+                    }
+                    if ($next_arc->type == 5) {
                         return true;
                     }
                 }
             }
             if ($arc->type == 3) {
-                $tr = $this->trs[count($this->trs) - 1];
+                // $tr = $this->trs[count($this->trs) - 1];
             }
-            $this->trs[] = $tr;
+            // $this->trs[] = $tr;
             if ($arc->type == 2) {
                 $next_ar = @$ars[$i + 1];
                 if ($next_ar) {
@@ -253,6 +256,15 @@
                     }
                 }
                 return true;
+            }
+            if ($arc->type == 1) {
+                $next_ar = @$ars[$i + 1];
+                if ($next_ar) {
+                    $next_arc = self::$data[$next_ar];
+                    if ($next_arc->type == 1) {
+                        return true;
+                    }
+                }
             }
             return false;
         }
@@ -288,7 +300,7 @@
                     $part = new Part();
                 }
             }
-            if ($part->trs) {
+            if ($part->all) {
                 $this->parts[] = $part;
             }
         }
@@ -316,11 +328,11 @@
         }
 
         public function _() {
-            $latins = [];
-            foreach ($this->words as $word) {
-                $latins[] = $word->toLatin();
-            }
-            $this->latin = implode(' ', $latins);
+            // $latins = [];
+            // foreach ($this->words as $word) {
+            //     $latins[] = $word->toLatin();
+            // }
+            // $this->latin = implode(' ', $latins);
         }
     }
 
@@ -345,46 +357,4 @@
             ) }});
         }
     </style>
-@endsection
-
-@section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12 table-responsive">
-            <table class="table table-bordered">
-                <tr>
-{{--                     @foreach ($ars as $k => $v)
-                        <td>
-                            {{ $k }}
-                            <hr>
-                            {{ $v }}
-                        </td>
-                    @endforeach
- --}}                </tr>
-            </table>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12"
-        >
-            @foreach ($suras as $ar => $tr)
-                <div>
-                    {{-- {{ $tr }} --}}
-                    <!--
-                    <span
-                        dir="rtl"
-                        lang="ar"
-                        style="
-                            font-family: qalammajeed;
-                            font-size: 48px;
-                        "
-                    >{!! $ar !!}</span>
-                    -->
-                </div>
-            @endforeach
-        </div>
-    </div>
-</div>
 @endsection
