@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Sura;
 use App\Aya;
+use App\Translator;
+use App\Data;
 
 class QuranController extends Controller
 {
     public function alphabets() {
-        return view('quran.as');
+        $suras = Data::$suras;
+        return view('quran.as', [
+            'suras' => $suras,
+        ]);
     }
 
     public function sura(Sura $sura) {

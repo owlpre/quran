@@ -115,7 +115,7 @@
                                     {{ Form::text('name', '', [
                                         'class' => 'question form-control',
                                         'placeholder' => 'Sura Name',
-                                        'data-answer' => $sura->name,
+                                        'data-answer' => $sura->translation(),
                                         'autocomplete' => 'off',
                                         'spellcheck' => 'false',
                                     ]) }}
