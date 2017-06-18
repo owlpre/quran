@@ -106,8 +106,8 @@ class Part {
                 (
                     $arc->type == 5
                 )
-                and $i == 2
-                and count($ars) == 3
+                and $i == count($ars) - 1
+                and count($ars) >= 3
             ) {
                 $tr = $arc->tr2;
             }
@@ -135,7 +135,11 @@ class Part {
             case 7:
                 if ($next_ar) {
                     if ($next_arc->type == 5) {
-                        return false;
+                        $next_ar = @$ars[$i + 2];
+                        $next_arc = @self::$data[$next_ar];
+                        if ($next_arc->type != 2) {
+                            return false;
+                        }
                     }
                 }
                 return true;
