@@ -118,7 +118,6 @@
     ];
 
     class Part {
-        // var $trs = [];
         static $ars = [
             'ب' =>
                 [ 1, 'b', ],
@@ -188,29 +187,27 @@
                 [ 2, 'in',],
             'ٌ' =>
                 [ 2, 'un',],
-            'ْ' =>
-                [ 2, '',],
-            ' ' =>
-                [ 2, ' ',],
-            'ئ' =>
-                [ 2, "",],
-            'أ' =>
-                [ 2, "",],
-            'إ' =>
-                [ 2, "",],
-            'ؤ' =>
-                [ 2, "",],
             'ى' =>
                 [ 2, "",],
             'ّ' =>
                 [ 3, '',],
+            'أ' =>
+                [ 4, "", 'a', "'"],
+            'إ' =>
+                [ 4, "", 'i', "'"],
+            'ئ' =>
+                [ 4, "", 'i', "'"],
+            'ؤ' =>
+                [ 4, "", 'u', "'"],
             'ا' =>
-                [ 4, '', 'a', ],
+                [ 5, '', 'a', "'"],
             'ء' =>
-                [ 5, "'",],
+                [ 6, "'", ],
+            'ْ' =>
+                [ 7, ],
         ];
         static $data = [];
-        var $all = "";
+        var $text = "";
 
         public function __construct() {
             if (empty(self::$data)) {
@@ -221,64 +218,110 @@
             }
         }
 
-        public function toLatin() {
-            return implode('', $this->trs);
+        public function process() {
+            $translation = "";
+            $ars = preg_split('//u', $this->text, null, PREG_SPLIT_NO_EMPTY);
+            for ($i = 0;$i < count($ars);$i++) {
+                $ar = $ars[$i];
+                $arc = self::$data[$ar];
+                $tr = $arc->tr;
+                $prev_ar = @$ars[$i - 1];
+                $prev_arc = @self::$data[$prev_ar];
+                $next_ar = @$ars[$i + 1];
+                $next_arc = @self::$data[$next_ar];
+                if (
+                    (
+                        $arc->type == 4
+                        or $arc->type == 5
+                    )
+                    and $next_ar
+                    and $next_arc->type == 7
+                ) {
+                    $tr = $arc->tr3;
+                }
+                if ($arc->type == 3) {
+                    $tr = $prev_arc->tr;
+                }
+                if (
+                    (
+                        $arc->type == 5
+                    )
+                    and $i == 2
+                    and count($ars) == 3
+                ) {
+                    $tr = $arc->tr2;
+                }
+                $translation .= $tr;
+            }
+            $this->translation = $translation;
+            return $this;
         }
 
-        public function add($ar, $ars, $i) {
-            $this->all .= $ar;
+        public function add($ars, $i) {
+            $ar = $ars[$i];
+            $this->text .= $ar;
             $arc = self::$data[$ar];
-            // $tr = $arc->tr;
-            if ($arc->type == 4) {
-                $next_ar = @$ars[$i + 1];
-                if ($next_ar) {
-                    $next_arc = self::$data[$next_ar];
-                    if ($next_arc->type == 1) {
-                        // $tr = $arc->tr2;
-                        // $this->trs[] = $tr;
-                        return true;
+            $next_ar = @$ars[$i + 1];
+            $next_arc = @self::$data[$next_ar];
+            switch ($arc->type) {
+                case 1:
+                    if ($next_ar) {
+                        if ($next_arc->type == 1) {
+                            return true;
+                        }
                     }
-                    if ($next_arc->type == 5) {
-                        return true;
+                    break;
+                case 2:
+                case 7:
+                    if ($next_ar) {
+                        if ($next_arc->type == 5) {
+                            return false;
+                        }
                     }
-                }
-            }
-            if ($arc->type == 3) {
-                // $tr = $this->trs[count($this->trs) - 1];
-            }
-            // $this->trs[] = $tr;
-            if ($arc->type == 2) {
-                $next_ar = @$ars[$i + 1];
-                if ($next_ar) {
-                    $next_arc = self::$data[$next_ar];
-                    if ($next_arc->type == 4) {
-                        return false;
+                    return true;
+                case 3:
+                    if ($next_ar) {
+                        if (
+                            $next_arc->type == 1
+                            or $next_arc->type == 5
+                        ) {
+                            return true;
+                        }
                     }
-                }
-                return true;
-            }
-            if ($arc->type == 1) {
-                $next_ar = @$ars[$i + 1];
-                if ($next_ar) {
-                    $next_arc = self::$data[$next_ar];
-                    if ($next_arc->type == 1) {
-                        return true;
+                    break;
+                case 4:
+                    if ($next_ar) {
+                        if (
+                            $next_arc->type == 1
+                            or $next_arc->type == 4
+                            or $next_arc->type == 5
+                        ) {
+                            return true;
+                        }
                     }
-                }
+                    break;
+                case 5:
+                    if ($next_ar) {
+                        if (
+                            $next_arc->type == 1
+                            or $next_arc->type == 4
+                            or $next_arc->type == 6
+                        ) {
+                            return true;
+                        }
+                    }
+                    break;
             }
             return false;
-        }
-
-        public function trans() {
-            return implode('', $this->trs);
         }
     }
 
     class ArC {
         public function __construct($data) {
-            $this->type = $data[0];
-            $this->tr = $data[1];
-            $this->tr2 = @$data[2];
+            $this->type = @$data[0];
+            $this->tr   = @$data[1];
+            $this->tr2  = @$data[2];
+            $this->tr3  = @$data[3];
         }
     }
 
@@ -286,36 +329,36 @@
         public function __construct($text) {
             $this->text = $text;
             $this->_();
+            $this->__();
+        }
+
+        private function __() {
+            $parts = [];
+            foreach ($this->parts as $part) {
+                $parts[] = $part->translation;
+            }
+            $this->translation = implode('', $parts);
         }
 
         private function _() {
             $this->parts = [];
-            $ars = preg_split('//u', $this->text, null, PREG_SPLIT_NO_EMPTY);;
+            $ars = preg_split('//u', $this->text, null, PREG_SPLIT_NO_EMPTY);
             $part = new Part();
             for ($i = 0;$i < count($ars);$i++) {
-                $ar = $ars[$i];
-                $newPart = $part->add($ar, $ars, $i);
+                $newPart = $part->add($ars, $i);
                 if ($newPart) {
-                    $this->parts[] = $part;
+                    $this->parts[] = $part->process();
                     $part = new Part();
                 }
             }
-            if ($part->all) {
-                $this->parts[] = $part;
+            if ($part->text) {
+                $this->parts[] = $part->process();
             }
-        }
-
-        public function toLatin() {
-            $latin = "";
-            foreach ($this->parts as $part) {
-                $latin .= $part->toLatin();
-            }
-            return $latin;
         }
     }
 
     class Translator {
-        private $text, $words, $latin;
+        private $text, $words;
         
         public function __construct($text) {
             $this->text = $text;
@@ -327,12 +370,12 @@
             $this->_();
         }
 
-        public function _() {
-            // $latins = [];
-            // foreach ($this->words as $word) {
-            //     $latins[] = $word->toLatin();
-            // }
-            // $this->latin = implode(' ', $latins);
+        private function _() {
+            $words = [];
+            foreach ($this->words as $word) {
+                $words[] = $word->translation;
+            }
+            $this->translation = implode(' ', $words);
         }
     }
 
