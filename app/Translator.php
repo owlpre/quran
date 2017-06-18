@@ -89,6 +89,9 @@ class Part {
             $prev_arc = @self::$data[$prev_ar];
             $next_ar = @$ars[$i + 1];
             $next_arc = @self::$data[$next_ar];
+            if ($arc->type == 4 and count($ars) == 1) {
+                $tr = $arc->tr3;
+            }
             if (
                 (
                     $arc->type == 4
@@ -172,7 +175,7 @@ class Part {
                     if (
                         $next_arc->type == 1
                         or $next_arc->type == 4
-                        or $next_arc->type == 6
+                        or $next_arc->type == 5
                     ) {
                         return true;
                     }
