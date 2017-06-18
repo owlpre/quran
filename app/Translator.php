@@ -137,7 +137,10 @@ class Part {
                     if ($next_arc->type == 5) {
                         $next_ar = @$ars[$i + 2];
                         $next_arc = @self::$data[$next_ar];
-                        if ($next_arc->type != 2) {
+                        if (
+                            !$next_ar
+                            or ($next_ar and $next_arc->type != 2)
+                        ) {
                             return false;
                         }
                     }
