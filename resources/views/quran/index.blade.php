@@ -91,7 +91,7 @@
     <div class="container-fluid">
         <div class="row">
                 @foreach ($suras as $sura)
-                    <div class="sura-wrapper text-center col-sm-6 col-md-4 col-lg-3">
+                    <div class="sura-wrapper text-center col-sm-6 col-md-4 col-lg-2">
                         <div class="sura">
                             <div class="action-hidden" style="display: none;">
                                 {{ $sura->id }}
