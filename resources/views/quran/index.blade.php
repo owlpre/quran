@@ -22,7 +22,7 @@
         }
         .form-control {
             display: inline-block;
-            width: 160px;
+            width: auto;
         }
         .sura-wrapper {
             padding: 8px;
@@ -126,7 +126,6 @@
                                         <i class="fa fa-close"></i>
                                     </button>
                                 </div>
-                                <!--
                                 <div class="form-group">
                                     {{ Form::text('arti', '', [
                                         'class' => 'question form-control',
@@ -142,6 +141,7 @@
                                         <i class="fa fa-close"></i>
                                     </button>
                                 </div>
+                                <!--
                                 <div class="form-group">
                                     {{ Form::text('number', '', [
                                         'class' => 'question form-control',
@@ -186,6 +186,13 @@
         <button class="btn btn-default btn-check">
             <span class="glyphicon glyphicon-ok"></span>
         </button>
+        <button class="btn btn-default">
+            <span class="badge">
+                <span class="score">0</span>
+                /
+                <span class="total-question">0</span>
+            </span>
+        </button>
     </div>
 @endsection
 
@@ -193,6 +200,7 @@
     <script>
         $(function () {
             function checkAnswers() {
+                var score = 0;
                 var next = false;
                 $(".question").each(function () {
                     var el = $(this);
@@ -210,6 +218,7 @@
                             if ($(this).is(":focus") && next == false) {
                                 next = true;
                             }
+                            score++;
                         } else {
                             group.removeClass("has-success");
                             group.addClass("has-error");
@@ -219,6 +228,25 @@
                         group.removeClass("has-error");
                     }
                 });
+                $(".score").html(score);
+                $(".score").closest(".btn").removeClass("btn-default");
+                $(".score").closest(".btn").removeClass("btn-danger");
+                $(".score").closest(".btn").removeClass("btn-warning");
+                $(".score").closest(".btn").removeClass("btn-primary");
+                $(".score").closest(".btn").removeClass("btn-success");
+                var total = $(".question").length;
+                var percentage = score/total;
+                if (score == 0 ) {
+                    $(".score").closest(".btn").addClass("btn-default");
+                } else if (percentage <= 0.25) {
+                    $(".score").closest(".btn").addClass("btn-danger");
+                } else if (percentage <= 0.5) {
+                    $(".score").closest(".btn").addClass("btn-warning");
+                } else if (percentage <= 0.75) {
+                    $(".score").closest(".btn").addClass("btn-primary");
+                } else {
+                    $(".score").closest(".btn").addClass("btn-success");
+                }
             };
 
             $(".btn-title").click(function () {
@@ -289,7 +317,9 @@
                     break;
                 }
             });
+            $(".total-question").html($(".question").length);
             $("#main-menu .btn-action").click();
+            $("#main-menu .btn-title").click();
         });
     </script>
 @endsection

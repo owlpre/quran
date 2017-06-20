@@ -15,7 +15,7 @@ class QuranController extends Controller
         $indexs = [
             1   => [1,  7,  13,   19,  25],
             31  => [31, 37, 43,   49,  55],
-            61  => [64, 67, 73,   79,  85],
+            61  => [61, 67, 73,   79,  85],
             91  => [91, 97, 103, 109,    ],
         ];
         return view('quran.tree', [
