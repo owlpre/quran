@@ -10,6 +10,10 @@ class Aya extends Model
         'aya_id', 'sura_id', 'text',
     ];
 
+    public function sura() {
+        return $this->belongsTo(Sura::class);
+    }
+
     public function texts() {
         return $this->hasMany(Text::class);
     }
@@ -19,8 +23,9 @@ class Aya extends Model
         $prev_id = $id - 1 == 0 ? Aya::count() : $id - 1;
         $prev = Aya::findOrFail($prev_id);
         return view('template.nav', [
-            'url' => $prev->sura_id . '/' . $prev->aya_id,
-            'symbol' => '&lt;',
+            'url'       => $prev->sura_id . '/' . $prev->aya_id,
+            'symbol'    => '&lt;',
+            'label'     => 'Previous',
         ])->render();
     }
 
@@ -29,8 +34,9 @@ class Aya extends Model
         $next_id = $id + 1 >= Aya::count() ? 1 : $id + 1;
         $next = Aya::findOrFail($next_id);
         return view('template.nav', [
-            'url' => $next->sura_id . '/' . $next->aya_id,
-            'symbol' => '&gt;',
+            'url'       => $next->sura_id . '/' . $next->aya_id,
+            'symbol'    => '&gt;',
+            'label'     => 'Next',
         ])->render();
     }
 }
