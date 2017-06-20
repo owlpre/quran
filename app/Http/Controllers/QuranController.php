@@ -35,10 +35,19 @@ class QuranController extends Controller
         dd($sura);
     }
 
-    public function aya(Sura $sura, $aya) {
-        $aya = $sura->ayas()->where('aya_id', $aya)->get()->first();
+    public function aya(Sura $sura, $aya_start, $aya_end = false) {
+        if ($aya_end) {
+            $ayas = $sura->ayas()->where([
+                ['aya_id', '>=', $aya_start],
+                ['aya_id', '<=', $aya_end],
+            ])->get();
+        } else {
+            $ayas = $sura->ayas()->where([
+                ['aya_id', '=', $aya_start],
+            ])->get();
+        }
         return view('quran.aya', [
-            'aya' => $aya,
+            'ayas' => $ayas,
         ]);
     }
 

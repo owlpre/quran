@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Aya extends Model
 {
     protected $fillable = [
-        'aya_id', 'sura_id', 'text',
+        'aya_id', 'sura_id', 'text', 'terjemahan', 'jalalayn',
     ];
 
     public function sura() {

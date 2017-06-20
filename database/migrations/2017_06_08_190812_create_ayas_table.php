@@ -18,6 +18,8 @@ class CreateAyasTable extends Migration
             $table->integer('aya_id')->unsigned()->index();
             $table->integer('sura_id')->unsigned()->index();
             $table->text('text');
+            $table->text('terjemahan');
+            $table->text('jalalayn');
             $table->timestamps();
         });
     }

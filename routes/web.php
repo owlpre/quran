@@ -14,7 +14,7 @@
 Route::get('/', 'QuranController@index');
 Route::get('/tree', 'QuranController@tree');
 Route::get('/as', 'QuranController@alphabets');
-Route::get('/{sura}/{aya}', 'QuranController@aya');
+Route::get('/{sura}/{aya_start}/{aya_end?}', 'QuranController@aya');
 Route::get('/{sura}', 'QuranController@sura');
 
 Route::get('/andi/{sura}', 'AndiController@sura');

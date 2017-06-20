@@ -27,7 +27,7 @@
             <div class="title">
                 <h1>
                     <!--
-                    {{ $aya->sura->translation() }}
+                    {{ $ayas->first()->sura->translation() }}
                     -->
                     &nbsp;
                     <span
@@ -38,31 +38,35 @@
                             font-family: qalammajeed;
                             font-size: 48px;
                         "
-                    >{!! clean($aya->sura->ar) !!}</span>
+                    >{!! clean($ayas->first()->sura->ar) !!}</span>
                 </h1>
                 <hr>
             </div>
-            <div
-                dir="rtl"
-                lang="ar"
-                style="
-                    font-family: qalammajeed;
-                    font-size: 48px;
-                "
-            >{!! clean($aya->text) !!}</div>
-            <div class="text-center">
+            @foreach ($ayas as $aya)
+                <div
+                    dir="rtl"
+                    lang="ar"
+                    style="
+                        font-family: qalammajeed;
+                        font-size: 48px;
+                    "
+                >{!! clean($aya->text) !!}</div>
                 <hr>
-                <nav aria-label="Page navigation">
-                    <ul class="pagination">
-                        <li>
-                            {!! $aya->prev() !!}
-                        </li>
-                        <li>
-                            {!! $aya->next() !!}
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+                <div>{{ $aya->terjemahan }}</div>
+                <hr>
+                <div>{{ $aya->jalalayn }}</div>
+                <hr>
+            @endforeach
+            <nav aria-label="Page navigation">
+                <ul class="pager">
+                    <li>
+                        {!! $aya->prev() !!}
+                    </li>
+                    <li>
+                        {!! $aya->next() !!}
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>

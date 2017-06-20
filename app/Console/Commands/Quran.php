@@ -4,6 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Quran as QuranModel;
+use App\Terjemahan;
+use App\Jalalayn;
 use App\Aya;
 use App\Sura;
 use Storage;
@@ -60,15 +62,38 @@ class Quran extends Command
         }
 
         $ayas = QuranModel::all();
+        $terjemahans = Terjemahan::all();
+        $jalalayns = Jalalayn::all();
         $bar = $this->output->createProgressBar(count($ayas));
         foreach ($ayas as $i => $aya) {
             $sura = Sura::findOrFail($aya->sura);
-            $aya = $sura->ayas()->updateOrCreate(
-                [
-                    'aya_id' => $aya->aya,
-                    'text' => $aya->text,
-                ]
-            );
+            $sura_id = $aya->sura;
+            $aya_id = $aya->aya;
+            $terjemahan = $terjemahans->filter(
+                function ($terjemahan, $key) use ($sura_id, $aya_id) {
+                    return
+                        $terjemahan->sura == $sura_id
+                        and
+                        $terjemahan->aya == $aya_id
+                    ;
+                }
+            )->first();
+            $jalalayn = $jalalayns->filter(
+                function ($jalalayn, $key) use ($sura_id, $aya_id) {
+                    return
+                        $jalalayn->sura == $sura_id
+                        and
+                        $jalalayn->aya == $aya_id
+                    ;
+                }
+            )->first();
+            $data = [
+                'aya_id'        => $aya->aya,
+                'text'          => $aya->text,
+                'terjemahan'    => $terjemahan->text,
+                'jalalayn'      => $jalalayn->text,
+            ];
+            $aya = $sura->ayas()->updateOrCreate($data);
             $bar->advance();
         }
         $bar->finish();
