@@ -9,6 +9,14 @@
     {{ Html::style('bootstrap/3.3.7/dist/css/bootstrap.css') }}
     {{ Html::style('font-awesome/4.7.0/css/font-awesome.css') }}
 
+    @include('layout.font')
+
+    <style>
+    body {
+        font-family: Raleway;
+    }
+    </style>
+
     @yield('style')
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
