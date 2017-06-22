@@ -2,12 +2,6 @@
 
 @section('style')
     <style>
-        @font-face {
-            font-family: 'qalammajeed';
-            src: url({{ asset(
-                '/font/qalammajeed.ttf'
-            ) }});
-        }
         #main-menu {
             position: fixed;
             top: 0px;
@@ -16,13 +10,13 @@
             background: white;
             border-bottom: 1px solid #eaeaea;
             height: 50px;
+            z-index: 2;
         }
         body {
             padding-top: 50px;
         }
         .form-control {
             display: inline-block;
-            width: auto;
         }
         .sura-wrapper {
             padding: 8px;
@@ -119,12 +113,14 @@
                                         'autocomplete' => 'off',
                                         'spellcheck' => 'false',
                                     ]) }}
+                                    <!--
                                     <button class="btn btn-default btn-look">
                                         <i class="fa fa-eye"></i>
                                     </button>
                                     <button class="btn btn-default btn-delete">
                                         <i class="fa fa-close"></i>
                                     </button>
+                                    -->
                                 </div>
                                 <div class="form-group">
                                     {{ Form::text('arti', '', [
@@ -134,30 +130,34 @@
                                         'autocomplete' => 'off',
                                         'spellcheck' => 'false',
                                     ]) }}
+                                    <!--
                                     <button class="btn btn-default btn-look">
                                         <i class="fa fa-eye"></i>
                                     </button>
                                     <button class="btn btn-default btn-delete">
                                         <i class="fa fa-close"></i>
                                     </button>
+                                    -->
                                 </div>
-                                <!--
                                 <div class="form-group">
-                                    {{ Form::text('number', '', [
-                                        'class' => 'question form-control',
-                                        'placeholder' => 'Number of Aya',
-                                        'data-answer' => $sura->ayas()->count(),
-                                        'autocomplete' => 'off',
-                                        'spellcheck' => 'false',
-                                    ]) }}
-                                    <button class="btn btn-default btn-look">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-                                    <button class="btn btn-default btn-delete">
-                                        <i class="fa fa-close"></i>
-                                    </button>
+                                    <div class="input-group">
+                                        {{ Form::text('number', '', [
+                                            'class' => 'question form-control',
+                                            'placeholder' => 'Number of Aya',
+                                            'data-answer' => $sura->ayas()->count(),
+                                            'autocomplete' => 'off',
+                                            'spellcheck' => 'false',
+                                        ]) }}
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-default btn-look">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+                                            <button class="btn btn-default btn-delete">
+                                                <i class="fa fa-close"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                -->
                             </div>
                             <div class="action-hidden">
                                 <br>

@@ -12,9 +12,15 @@
     @include('layout.font')
 
     <style>
-    body {
-        font-family: Raleway;
-    }
+        @font-face {
+            font-family: 'qalammajeed';
+            src: url({{ asset(
+                '/font/qalammajeed.ttf'
+            ) }});
+        }
+        body {
+            font-family: Raleway;
+        }
     </style>
 
     @yield('style')

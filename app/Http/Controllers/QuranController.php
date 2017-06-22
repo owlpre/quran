@@ -10,6 +10,13 @@ use App\Data;
 
 class QuranController extends Controller
 {
+    public function table() {
+        $suras = Sura::all();
+        return view('quran.list', [
+            'suras' => $suras,
+        ]);
+    }
+
     public function tree() {
         $suras = Sura::all();
         $indexs = [
