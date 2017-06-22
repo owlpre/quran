@@ -10,6 +10,10 @@ class Aya extends Model
         'aya_id', 'sura_id', 'text', 'terjemahan', 'jalalayn',
     ];
 
+    public function words() {
+        return $this->hasMany(Word::class);
+    }
+
     public function sura() {
         return $this->belongsTo(Sura::class);
     }

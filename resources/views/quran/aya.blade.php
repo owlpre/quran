@@ -56,6 +56,36 @@
                 <hr>
                 <div>{{ $aya->jalalayn }}</div>
                 <hr>
+                <div
+                    dir="rtl"
+                    lang="ar"
+                >
+                    @foreach ($aya->words as $word)
+                        <div
+                            style="
+                                display: inline-block;
+                                border-left: 1px solid #ddd;
+                            "
+                        >
+                            <span
+                                dir="rtl"
+                                lang="ar"
+                                style="
+                                    display: inline-block;
+                                    font-family: qalammajeed;
+                                    font-size: 48px;
+                                "
+                            >
+                                {{ $word->ar }}
+                            </span>
+                            <hr>
+                            {{ $word->latin() }}
+                            <hr>
+                            {{ $word->tr }}
+                        </div>
+                    @endforeach
+                </div>
+                <hr>
             @endforeach
             <nav aria-label="Page navigation">
                 <ul class="pager">

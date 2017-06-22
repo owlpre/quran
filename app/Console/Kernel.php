@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\Quran::class,
-        Commands\QuranClean::class,
+        // Commands\QuranClean::class,
+        Commands\QuranWord::class,
     ];
 
     /**

@@ -10,7 +10,7 @@ class Translator {
             $this->words = [];
             $words = preg_split('/\s+/', $this->text);
             foreach ($words as $word) {
-                $this->words[] = new Word($word);
+                $this->words[] = new TranslatorWord($word);
             }
             $this->_();
         }
@@ -33,7 +33,7 @@ class ArC {
     }
 }
 
-class Word {
+class TranslatorWord {
     public function __construct($text) {
         $this->text = $text;
         $this->_();

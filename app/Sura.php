@@ -12,7 +12,7 @@ class Sura extends Model
 
     public function translation() {
         $ar = $this->ar;
-        $translator = new Translator($this->ar);
+        $translator = new Translator($ar);
         return $translator->translation;
     }
     
